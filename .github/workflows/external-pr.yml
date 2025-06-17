@@ -44,7 +44,6 @@ jobs:
           INTERNAL_BRANCH_NAME: "external-pr-${{ github.event.pull_request.number }}"
         run: |
           unset GH_TOKEN
-          gh auth logout
           echo "Attempting gh auth login..."
           echo "$INTERNAL_REPO_TOKEN" | gh auth login --with-token --hostname github.com
           gh auth status
