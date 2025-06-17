@@ -3,7 +3,7 @@ name: Sync external PR branch to public repository
 on:
   pull_request_target:
     branches: 
-      - 'external-pr-*'
+      - 'external-pr/**'
 
 jobs:
   git-mirror:
