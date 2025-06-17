@@ -6,10 +6,6 @@ on:
     branches:
       - amd-staging
 
-permissions:
-  pull-requests: write # To close and comment on the PR in the public repo
-  contents: read     # To checkout code
-
 jobs:
   mirror_pr:
     runs-on: ubuntu-latest
