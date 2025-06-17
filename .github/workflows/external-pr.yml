@@ -29,7 +29,7 @@ jobs:
           destination_branch: "external-pr/${{ github.event.pull_request.number }}"
 
       - name: Create Pull Request in Internal Repository
-        if: github.event.action == opened
+        if: github.event.action == 'opened'
         id: create_internal_pr
         env:
           GH_TOKEN: ${{ secrets.INTERNAL_REPO_TOKEN }}
@@ -67,7 +67,7 @@ jobs:
 
 
       - name: Comment on and Close External PR
-        if: steps.create_internal_pr.outputs.INTERNAL_PR_URL != '' && github.event.action == opened
+        if: steps.create_internal_pr.outputs.INTERNAL_PR_URL != '' && github.event.action == 'opened'
         env:
           GH_TOKEN: ${{ secrets.EXTERNAL_REPO_TOKEN }}
           EXTERNAL_PR_NUMBER: ${{ github.event.pull_request.number }}
