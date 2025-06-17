@@ -13,7 +13,7 @@ jobs:
       - name: Get Current PR Body
         id: current_pr
         env:
-          GH_TOKEN: ${{ secrets.TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Fetching fresh PR body via gh cli is more reliable than event payload for 'edited'
           PR_BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body --jq .body)
