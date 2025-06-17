@@ -1,7 +1,7 @@
 name: Sync external PR branch to public repository
 
 on:
-  pull_request_target:
+  pull_request:
     types: [synchronize]
     branches: [ external-pr-* ]
 
