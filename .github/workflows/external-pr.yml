@@ -1,8 +1,8 @@
 name: Mirror External PR to Internal Repo
 
 on:
-  pull_request_target: # IMPORTANT: Use pull_request_target for security
-    types: [opened, synchronize]
+  pull_request_target:
+    types: [opened]
     branches:
       - amd-staging
 
