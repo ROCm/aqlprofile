@@ -41,7 +41,7 @@ jobs:
         name: Push branch to Internal Repository
         with:
           source_repo: "https://github.com/ROCm/aqlprofile.git"
-          source_branch: "external-pr-${{ github.event.pull_request.number }}"
+          source_branch: "${{ github.event.pull_request.head.sha }}"
           destination_repo: "https://${{ secrets.INTERNAL_REPO_TOKEN }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
           destination_branch: "external-pr-${{ github.event.pull_request.number }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}
