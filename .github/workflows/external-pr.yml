@@ -9,7 +9,7 @@ on:
 jobs:
   mirror_pr:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name != 'AMD-ROCm-Internal/aqlprofile' # Avoid loops if internal creates a PR back
+    if: github.event.pull_request.head.repo.full_name != 'AMD-ROCm-Internal/aqlprofile'
 
     steps:
       - name: Checkout PR base
@@ -29,11 +29,12 @@ jobs:
           destination_branch: "external-pr/${{ github.event.pull_request.number }}"
 
       - name: Create Pull Request in Internal Repository
+        if: github.event.action == opened
         id: create_internal_pr
         env:
-          GH_TOKEN: ${{ secrets.INTERNAL_REPO_TOKEN }} # PAT for internal repo actions
+          GH_TOKEN: ${{ secrets.INTERNAL_REPO_TOKEN }}
           INTERNAL_REPO: "AMD-ROCm-Internal/aqlprofile"
-          INTERNAL_BASE_BRANCH: "amd-staging" # Change if your internal default branch is different
+          INTERNAL_BASE_BRANCH: "amd-staging"
           HEAD_BRANCH: "external-pr/${{ github.event.pull_request.number }}"
           PR_TITLE: "Mirror: ${{ github.event.pull_request.title }} (Ext PR #${{ github.event.pull_request.number }})"
           PR_BODY: |
@@ -66,11 +67,11 @@ jobs:
 
 
       - name: Comment on and Close External PR
-        if: steps.create_internal_pr.outputs.INTERNAL_PR_URL != '' # Only if internal PR was created/found
+        if: steps.create_internal_pr.outputs.INTERNAL_PR_URL != '' && github.event.action == opened
         env:
-          GH_TOKEN: ${{ secrets.EXTERNAL_REPO_TOKEN }} # Built-in token for actions on ROCm/aqlprofile
+          GH_TOKEN: ${{ secrets.EXTERNAL_REPO_TOKEN }}
           EXTERNAL_PR_NUMBER: ${{ github.event.pull_request.number }}
-          EXTERNAL_REPO: ${{ github.repository }} # e.g., ROCm/aqlprofile
+          EXTERNAL_REPO: ${{ github.repository }}
         run: |
           COMMENT_BODY="This pull request has been mirrored to our internal repository for review and integration. Thank you for your contribution!"
 
