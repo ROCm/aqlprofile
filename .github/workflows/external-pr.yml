@@ -40,10 +40,11 @@ jobs:
       - uses: repo-sync/github-sync@v2
         name: Push branch to Internal Repository
         with:
-          source_repo: "https://${{ secrets.GITHUB_TOKEN }}@github.com/ROCm/aqlprofile.git"
+          source_repo: "https://github.com/ROCm/aqlprofile.git"
           source_branch: "external-pr-${{ github.event.pull_request.number }}"
           destination_repo: "https://${{ secrets.INTERNAL_REPO_TOKEN }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
           destination_branch: "external-pr-${{ github.event.pull_request.number }}"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request in Internal Repository
         id: create_internal_pr
