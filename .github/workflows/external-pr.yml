@@ -44,11 +44,9 @@ jobs:
 
       - name: Push branch to Internal Repository
         env:
-          INTERNAL_REPO_PAT: ${{ secrets.INTERNAL_REPO_PAT }}
-          INTERNAL_REPO_URL: "https://${{ secrets.INTERNAL_REPO_PAT }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
           INTERNAL_BRANCH_NAME: "external-pr-${{ github.event.pull_request.number }}"
         run: |
-          git remote add internal_mirror "${INTERNAL_REPO_URL}"
+          git remote add internal_mirror https://${{ secrets.INTERNAL_REPO_PAT }}@github.com/AMD-ROCm-Internal/aqlprofile.git
           git push internal_mirror "refs/heads/${INTERNAL_BRANCH_NAME}:refs/heads/${INTERNAL_BRANCH_NAME}" --force
           echo "Pushed to internal repository as branch ${INTERNAL_BRANCH_NAME}"
 
