@@ -34,7 +34,7 @@ jobs:
           GH_TOKEN: ${{ secrets.INTERNAL_REPO_TOKEN }} # PAT for internal repo actions
           INTERNAL_REPO: "AMD-ROCm-Internal/aqlprofile"
           INTERNAL_BASE_BRANCH: "amd-staging" # Change if your internal default branch is different
-          HEAD_BRANCH: "external-pr-${{ github.event.pull_request.number }}"
+          HEAD_BRANCH: "external-pr/${{ github.event.pull_request.number }}"
           PR_TITLE: "Mirror: ${{ github.event.pull_request.title }} (Ext PR #${{ github.event.pull_request.number }})"
           PR_BODY: |
             This PR mirrors changes from external pull request: ${{ github.event.pull_request.html_url }}
