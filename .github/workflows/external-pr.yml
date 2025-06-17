@@ -33,14 +33,13 @@ jobs:
           echo "Checked out PR branch: external-pr-${{ github.event.pull_request.number }}"
           git show --summary # Show commit details
 
-      - uses: repo-sync/github-sync@v2
+      - uses: wei/git-sync@v3
         name: Push branch to Internal Repository
         with:
           source_repo: "https://${{ secrets.EXTERNAL_REPO_TOKEN }}@github.com/ROCm/aqlprofile.git"
           source_branch: "${{ github.event.pull_request.head.ref }}"
           destination_repo: "https://${{ secrets.INTERNAL_REPO_TOKEN }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
           destination_branch: "external-pr-${{ github.event.pull_request.number }}"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request in Internal Repository
         id: create_internal_pr
