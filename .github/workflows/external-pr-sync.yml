@@ -2,13 +2,13 @@ name: Sync external PR branch to public repository
 
 on:
   pull_request:
-    types: [synchronize]
     branches: 
-      - 'external-pr-**'
+      - 'external-pr-*'
 
 jobs:
   git-mirror:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == 'AMD-ROCm-Internal/aqlprofile'
     steps:
       - name: Get Current PR Body
         id: current_pr
