@@ -45,7 +45,7 @@ jobs:
       - name: Push branch to Internal Repository
         env:
           INTERNAL_REPO_PAT: ${{ secrets.INTERNAL_REPO_PAT }}
-          INTERNAL_REPO_URL: "https://x-access-token:${{ secrets.INTERNAL_REPO_PAT }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
+          INTERNAL_REPO_URL: "https://${{ secrets.INTERNAL_REPO_PAT }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
           INTERNAL_BRANCH_NAME: "external-pr-${{ github.event.pull_request.number }}"
         run: |
           git remote add internal_mirror "${INTERNAL_REPO_URL}"
