@@ -39,10 +39,42 @@ jobs:
 
       - name: Push branch to Internal Repository
         env:
+          INTERNAL_REPO_TOKEN: ${{ secrets.INTERNAL_REPO_TOKEN }}
+          # For debugging, let's also define the plain URL
+          INTERNAL_REPO_SLUG: "AMD-ROCm-Internal/aqlprofile" # Replace with your actual org/repo
           INTERNAL_BRANCH_NAME: "external-pr-${{ github.event.pull_request.number }}"
         run: |
-          git remote add internal_mirror "https://x-access-token:${{ secrets.INTERNAL_REPO_TOKEN }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
-          git push internal_mirror "refs/heads/${INTERNAL_BRANCH_NAME}:refs/heads/${INTERNAL_BRANCH_NAME}" --force
+          echo "Attempting to push to ORG_INTERNAL/repo: ${INTERNAL_REPO_SLUG}"
+          echo "Internal branch name: ${INTERNAL_BRANCH_NAME}"
+          echo "Checking if PAT is set (should not be empty): ${{ secrets.INTERNAL_REPO_TOKEN != '' }}"
+
+          # Construct the URL with the token
+          # Ensure there are no accidental newlines or spaces if copying from somewhere
+          INTERNAL_REPO_URL_WITH_TOKEN="https://x-access-token:${INTERNAL_REPO_TOKEN}@github.com/${INTERNAL_REPO_SLUG}.git"
+          echo "Constructed URL (token is present but hidden in logs): https://x-access-token:***@github.com/${INTERNAL_REPO_SLUG}.git"
+
+          # Test connectivity and auth with ls-remote first - this is less impactful than a push
+          echo "Attempting git ls-remote..."
+          git ls-remote "${INTERNAL_REPO_URL_WITH_TOKEN}" HEAD
+          if [ $? -ne 0 ]; then
+            echo "::error::git ls-remote failed. Check PAT permissions, token value, and repository URL/name (${INTERNAL_REPO_SLUG})."
+            # Try without a token to see if it's a public repo and the issue is purely auth
+            echo "Attempting git ls-remote without token (for public repo check)..."
+            git ls-remote "https://github.com/${INTERNAL_REPO_SLUG}.git" HEAD
+            exit 1
+          fi
+          echo "git ls-remote successful."
+
+          git remote add internal_mirror "${INTERNAL_REPO_URL_WITH_TOKEN}"
+          echo "Current remotes:"
+          git remote -v
+
+          echo "Attempting push to internal_mirror..."
+          git push internal_mirror "refs/heads/${INTERNAL_BRANCH_NAME}:refs/heads/${INTERNAL_BRANCH_NAME}" --force --verbose
+          if [ $? -ne 0 ]; then
+            echo "::error::git push failed."
+            exit 1
+          fi
           echo "Pushed to internal repository as branch ${INTERNAL_BRANCH_NAME}"
 
       - name: Create Pull Request in Internal Repository
