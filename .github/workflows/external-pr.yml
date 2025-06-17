@@ -41,6 +41,7 @@ jobs:
         env:
           INTERNAL_BRANCH_NAME: "external-pr-${{ github.event.pull_request.number }}"
         run: |
+          unset GH_TOKEN
           git remote add internal_mirror "https://x-access-token:${{ secrets.INTERNAL_REPO_TOKEN }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
           git push internal_mirror "refs/heads/${INTERNAL_BRANCH_NAME}:refs/heads/${INTERNAL_BRANCH_NAME}" --force
           echo "Pushed to internal repository as branch ${INTERNAL_BRANCH_NAME}"
