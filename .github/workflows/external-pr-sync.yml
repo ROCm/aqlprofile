@@ -3,12 +3,12 @@ name: Sync external PR branch to public repository
 on:
   pull_request_target:
     branches: 
-      - 'external-pr/**'
+      - amd-staging
 
 jobs:
   git-mirror:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name == 'AMD-ROCm-Internal/aqlprofile'
+    if: github.event.pull_request.head.repo.full_name == 'AMD-ROCm-Internal/aqlprofile' && contains(github.event.pull_request.head.ref, 'external-pr')
     steps:
       - name: Get Current PR Body
         id: current_pr
