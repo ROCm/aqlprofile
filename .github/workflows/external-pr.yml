@@ -54,15 +54,6 @@ jobs:
           echo "Current remotes after adding internal_mirror:"
           git remote -v
 
-          # Test ls-remote with the plain URL, relying on gh auth setup
-          echo "Attempting git ls-remote on plain URL (should use gh auth)..."
-          git ls-remote "${INTERNAL_REPO_GIT_URL}" HEAD
-          if [ $? -ne 0 ]; then
-            echo "::error::git ls-remote failed even after gh auth. Check PAT permissions for AMD-ROCm-Internal/aqlprofile."
-            exit 1
-          fi
-          echo "git ls-remote successful."
-
           git push internal_mirror "refs/heads/${INTERNAL_BRANCH_NAME}:refs/heads/${INTERNAL_BRANCH_NAME}" --force --verbose
           if [ $? -ne 0 ]; then
             echo "::error::git push failed."
