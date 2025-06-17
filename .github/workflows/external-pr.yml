@@ -26,7 +26,7 @@ jobs:
           source_repo: "https://${{ secrets.EXTERNAL_REPO_TOKEN }}@github.com/ROCm/aqlprofile.git"
           source_branch: "${{ github.event.pull_request.head.ref }}"
           destination_repo: "https://${{ secrets.INTERNAL_REPO_TOKEN }}@github.com/AMD-ROCm-Internal/aqlprofile.git"
-          destination_branch: "external-pr-${{ github.event.pull_request.number }}"
+          destination_branch: "external-pr/${{ github.event.pull_request.number }}"
 
       - name: Create Pull Request in Internal Repository
         id: create_internal_pr
