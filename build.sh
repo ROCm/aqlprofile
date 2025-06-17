@@ -81,3 +81,4 @@ cmake --build "$BUILD_DIR" -- $MAKE_OPTS test
 cmake --build "$BUILD_DIR" -- $MAKE_OPTS package
 
 exit 0
+
