@@ -74,12 +74,12 @@ typedef union {
   uint32_t raw;
 } aqlprofile_att_header_marker_t;
 
-inline att_header_packet_t getHeaderPacket(int SE, int CU, int SIMD, gpu_id_t id) {
+inline att_header_packet_t getHeaderPacket(int SE, int CU, int SIMD, aql_profile::gpu_id_t id) {
   att_header_packet_t header{.raw = 0};
   header.legacy_version = 0x11;
   // Requires decoder version 0.1.2 or higher
-  if(id == aqlprofile::MI300_GPU_ID) header.gfx9_version2 = 5;
-  else if(id == aqlprofile::MI350_GPU_ID) header.gfx9_version2 = 6;
+  if(id == aql_profile::MI300_GPU_ID) header.gfx9_version2 = 5;
+  else if(id == aql_profile::MI350_GPU_ID) header.gfx9_version2 = 6;
   else header.gfx9_version2 = 4;
   header.SEID = SE;
   header.DCU = CU;
