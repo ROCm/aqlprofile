@@ -55,7 +55,7 @@ jobs:
         sudo apt install -y git
         
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - if: matrix.build-mode == 'manual'
       name: Install requirements

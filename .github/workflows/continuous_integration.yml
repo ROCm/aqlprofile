@@ -59,7 +59,7 @@ jobs:
       CORE_EXT_RUNNER: mi300a
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Install requirements
       timeout-minutes: 10
@@ -117,7 +117,7 @@ jobs:
       CORE_EXT_RUNNER: mi300
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Install requirements
       timeout-minutes: 10
